@@ -1,5 +1,5 @@
 import Vue from 'vue'
-// import pMinDelay from 'p-min-delay'
+import pMinDelay from 'p-min-delay'
 import { GroupwareAPI } from '../../lib/axios'
 
 // state
@@ -22,15 +22,15 @@ export const mutations = {
 
 // actions
 export const actions = {
-  async getDayoffList (_, { page = 1, perPage = 10 } = {}) {
-    const get = await GroupwareAPI.get('day-off/list', {
+  getDayoffList (_, { page = 1, perPage = 10 } = {}) {
+    const get = GroupwareAPI.get('day-off/list', {
       params: {
         page,
         limit: perPage
       }
     }).then(r => r.data)
 
-    return get
+    return pMinDelay(get, 1500)
   },
   getDayoffById ({ state }, id) {
     if (id in state.itemsMap) {
